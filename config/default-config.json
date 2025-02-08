@@ -1,0 +1,60 @@
+{
+  "vpc": {
+    "useExisting": false,
+    "existingVpcId": "",
+    "newVpc": {
+      "maxAzs": 2,
+      "natGateways": 1,
+      "cidr": "10.0.0.0/16"
+    }
+  },
+  "region": "us-east-1",
+  "container": {
+    "libreChatImage": {
+      "repository": "ghcr.io/danny-avila/librechat",
+      "tag": "latest"
+    },
+    "meiliSearchImage": {
+      "repository": "getmeili/meilisearch",
+      "tag": "v1.12.3"
+    },
+    "ragAPIImage": {
+      "repository": "ghcr.io/danny-avila/rag_api",
+      "tag": "latest"
+    }
+  },
+  "documentDb": {
+    "instanceType": "t3.medium",
+    "instances": 1
+  },
+  "aurora": {
+    "engine": "aurora-postgresql",
+    "engineVersion": "16.6",
+    "instanceClass": "serverless-v2",
+    "minCapacity": 0.5,
+    "maxCapacity": 16,
+    "multiAz": true,
+    "database": {
+      "name": "aurora_db",
+      "port": 5432,
+      "backupRetentionDays": 7,
+      "backupWindow": "03:00-04:00",
+      "maintenanceWindow": "Mon:04:00-Mon:05:00",
+      "deletionProtection": false,
+      "monitoring": {
+        "enableEnhancedMonitoring": true,
+        "monitoringInterval": 60,
+        "logsExports": ["postgresql"],
+        "logsRetentionDays": 30
+      },
+      "tags": {
+        "Environment": "production",
+        "Application": "librechat"
+      }
+    }
+  },
+  "domain": {
+    "name": "librechat1.smanubolu.com",
+    "certificateArn": "arn:aws:acm:us-east-1:834536439130:certificate/63d67879-ce35-4928-8b6b-00ca28903f0d"
+  }
+}
