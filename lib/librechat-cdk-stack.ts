@@ -10,6 +10,7 @@ import { AuroraPostgres } from './constructs/database/postgres';
 import { LibreChatService } from './constructs/compute/services/librechat-service';
 import { MeilisearchService } from './constructs/compute/services/meilisearch';
 import { ConfigBucket } from './constructs/storage/config-bucket';
+import { RagApiService } from './constructs/compute/services/rag-api';
 
 
 export class LibreChatCdkStack extends cdk.Stack {
@@ -43,10 +44,11 @@ export class LibreChatCdkStack extends cdk.Stack {
         this.vpc = vpcConstruct.vpc;
 
         // Create EFS Storage for Meilisearch
-        const efsStorage = new EFSStorage(this, 'MeilisearchEFS', {
+        const efsStorage = new EFSStorage(this, 'LibreChatEFS', {
             vpc: this.vpc
         });
 
+        // Create Config Bucket
         // Create Aurora PostgreSQL
         const postgres = new AuroraPostgres(this, 'PostgresDatabase', {
             vpc: this.vpc,
@@ -110,7 +112,32 @@ export class LibreChatCdkStack extends cdk.Stack {
         const configBucket = new ConfigBucket(this, `config-bucket-${process.env.ENVIRONMENT || 'XXX'}`);
 
 
-        // Create LibreChat Service - must be created before Meilisearch
+        const meilisearchService = new MeilisearchService(this, 'MeilisearchService', {
+            vpc: this.vpc,
+            cluster: this.ecsCluster,
+            meilisearchImage: props.config.container.meiliSearchImage,
+            fileSystem: efsStorage.fileSystem,
+            accessPoint: efsStorage.meiliSearchAccessPoint,
+        });
+
+        efsStorage.fileSystem.connections.allowFrom(
+            meilisearchService.service.connections,
+            ec2.Port.tcp(2049),
+            'Allow EFS access from Meilisearch ECS service'
+        );
+
+        // Create RAG API Service
+        const ragApiService = new RagApiService(this, 'RagApi', {
+            vpc: this.vpc,
+            cluster: this.ecsCluster,
+            configBucket: configBucket,
+            dbSecurityGroup: postgres.dbSecurityGroup,
+            ragAPIImage: this.props.config.container.ragAPIImage,
+            config: this.props.config,
+            secretTokens: props.secretTokens,
+        });
+
+        // Create LibreChat Service
         const libreChatService = new LibreChatService(this, 'LibreChatService', {
             vpc: this.vpc,
             cluster: this.ecsCluster,
@@ -123,26 +150,27 @@ export class LibreChatCdkStack extends cdk.Stack {
             certificateArn: props.config.domain.certificateArn,
             mongoSecret: this.documentDb.libreChatUserSecret,
             secretTokens: props.secretTokens,
-            libreChatImage: props.config.container.libreChatImage
-        });
-
-
-        const meilisearchService = new MeilisearchService(this, 'MeilisearchService', {
-            vpc: this.vpc,
-            cluster: this.ecsCluster,
-            meilisearchImage: {
-                repository: 'getmeili/meilisearch',
-                tag: 'v1.5'
-            },
+            libreChatImage: props.config.container.libreChatImage,
             fileSystem: efsStorage.fileSystem,
-            accessPoint: efsStorage.accessPoint,
-            libreChatService: libreChatService.service
+            accessPoint: efsStorage.libreChatAccessPoint,
         });
 
         efsStorage.fileSystem.connections.allowFrom(
-            meilisearchService.service.connections,
+            libreChatService.service.connections,
             ec2.Port.tcp(2049),
-            'Allow EFS access from Meilisearch ECS service'
+            'Allow EFS access from LibreChat ECS service'
+        );
+        //allow access from librechat service to meilisearch service
+        meilisearchService.service.connections.allowFrom(
+            libreChatService.service,
+            ec2.Port.tcp(7700),
+            'Allow access from LibreChat service to Meilisearch service'
+        );
+        //allow access from librechat service to rag api service
+        ragApiService.service.connections.allowFrom(
+            libreChatService.service,
+            ec2.Port.tcp(8000),
+            'Allow access from LibreChat service to RAG API service'
         );
 
         this.addTags();

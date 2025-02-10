@@ -16,7 +16,6 @@ export interface MeilisearchServiceProps {
   };
   fileSystem: efs.FileSystem;
   accessPoint: efs.AccessPoint;
-  libreChatService: ecs.FargateService;
 }
 
 export class MeilisearchService extends Construct {
@@ -28,9 +27,6 @@ export class MeilisearchService extends Construct {
     if (!props.meilisearchImage?.repository || !props.meilisearchImage?.tag) {
       throw new Error('Meilisearch image configuration is missing repository or tag');
     }
-    
-    // Add explicit dependency on the LibreChat service
-    this.node.addDependency(props.libreChatService);
 
     // Create security group for the Fargate service
     const serviceSecurityGroup = new ec2.SecurityGroup(this, 'ServiceSecurityGroup', {
@@ -38,13 +34,6 @@ export class MeilisearchService extends Construct {
       description: 'Security group for Meilisearch Fargate service',
       allowAllOutbound: true,
     });
-
-    // Allow inbound traffic on port 7700 from LibreChat security group
-    serviceSecurityGroup.addIngressRule(
-      props.libreChatService.connections.securityGroups[0],
-      ec2.Port.tcp(7700),
-      'Allow inbound traffic from LibreChat service on port 7700'
-    );
 
     // Create task definition
     const taskDefinition = new ecs.FargateTaskDefinition(this, 'TaskDef', {

@@ -9,16 +9,17 @@ export interface EFSStorageProps {
 
 export class EFSStorage extends Construct {
   public readonly fileSystem: efs.FileSystem;
-  public readonly accessPoint: efs.AccessPoint;
+  public readonly meiliSearchAccessPoint: efs.AccessPoint;
+  public readonly libreChatAccessPoint: efs.AccessPoint;
 
   constructor(scope: Construct, id: string, props: EFSStorageProps) {
     super(scope, id);
 
     // Create EFS File System
-    this.fileSystem = new efs.FileSystem(this, 'MeiliSearchEFS', {
+    this.fileSystem = new efs.FileSystem(this, 'LibreSearchEFS', {
       vpc: props.vpc,
       performanceMode: efs.PerformanceMode.GENERAL_PURPOSE,
-      throughputMode: efs.ThroughputMode.BURSTING,
+      throughputMode: efs.ThroughputMode.ELASTIC,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       vpcSubnets: {
         subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
@@ -26,7 +27,7 @@ export class EFSStorage extends Construct {
     });
 
     // Create access point for Meilisearch
-    this.accessPoint = this.fileSystem.addAccessPoint('MeiliSearchAccessPoint', {
+    this.meiliSearchAccessPoint = this.fileSystem.addAccessPoint('MeiliSearchAccessPoint', {
       path: '/meili_data',
       createAcl: {
         ownerGid: '1001',
@@ -38,5 +39,20 @@ export class EFSStorage extends Construct {
         uid: '1001'
       }
     });
+
+    // Create access point for LibreChat
+    this.libreChatAccessPoint = this.fileSystem.addAccessPoint('LibreChatAccessPoint', {
+      path: '/app/client/public/images',
+      createAcl: {
+        ownerGid: '1000',
+        ownerUid: '1000',
+        permissions: '755'
+      },
+      posixUser: {
+        gid: '1000',
+        uid: '1000'
+      }
+    });
+
   }
 }

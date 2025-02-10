@@ -21,19 +21,20 @@ export class AuroraPostgres extends Construct {
   private readonly initFunction: lambda.IFunction;
   public readonly secret: secretsmanager.ISecret;
   public readonly bedrockUserSecret: secretsmanager.Secret;
+  public readonly dbSecurityGroup: ec2.SecurityGroup;
 
   constructor(scope: Construct, id: string, props: AuroraPostgresProps) {
     super(scope, id);
 
     // Create security group for Aurora PostgreSQL
-    const dbSecurityGroup = new ec2.SecurityGroup(this, 'LibreChatPostgresSecurityGroup', {
+    this.dbSecurityGroup = new ec2.SecurityGroup(this, 'LibreChatPostgresSecurityGroup', {
       vpc: props.vpc,
       description: 'Security group for LibreChat Aurora PostgreSQL cluster',
       allowAllOutbound: true,
     });
 
     // Allow inbound access on PostgreSQL port
-    dbSecurityGroup.addIngressRule(
+    this.dbSecurityGroup.addIngressRule(
       ec2.Peer.ipv4(props.vpc.vpcCidrBlock),
       ec2.Port.tcp(this.port),
       'Allow inbound PostgreSQL access from VPC'
@@ -54,7 +55,7 @@ export class AuroraPostgres extends Construct {
         publiclyAccessible: false,
         enablePerformanceInsights: false,
       }),
-      securityGroups: [dbSecurityGroup],
+      securityGroups: [this.dbSecurityGroup],
       backup: {
         retention: cdk.Duration.days(7),
       },

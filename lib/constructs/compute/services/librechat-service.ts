@@ -5,8 +5,10 @@ import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as efs from 'aws-cdk-lib/aws-efs';
 
 import { Construct } from 'constructs';
+import { Stack } from 'aws-cdk-lib';
 
 export interface LibreChatServiceProps {
   vpc: ec2.IVpc;
@@ -20,6 +22,8 @@ export interface LibreChatServiceProps {
     repository: string;
     tag: string;
   };
+  fileSystem: efs.FileSystem;
+  accessPoint: efs.AccessPoint;
 }
 
 export class LibreChatService extends Construct {
@@ -104,27 +108,75 @@ export class LibreChatService extends Construct {
       cpu: 2048,
       ephemeralStorageGiB: 21,
       // Explicitly create the task role
-      taskRole: new iam.Role(this, 'TaskRole', {
-        assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com')
+      taskRole: new iam.Role(this, 'LibreChatTaskRole', {
+        assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+        description: 'Task role for LibreChat ECS service',
+        managedPolicies: [
+          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')
+        ]
       }),
     // Explicitly create the execution role
-      executionRole: new iam.Role(this, 'ExecutionRole', {
-        assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com')
+      executionRole: new iam.Role(this, 'LibreChatExecutionRole', {
+        assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+        description: 'Execution role for LibreChat ECS service',
+        managedPolicies: [
+          iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonECSTaskExecutionRolePolicy')
+        ]
       }),
       volumes: [{
         name: 'config'
       }]
     });
 
+    // Add Bedrock permissions
+    const bedrockPolicy = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'bedrock:InvokeModel',
+        'bedrock:InvokeModelWithResponseStream'
+      ],
+      resources: [
+        // Add specific model ARNs for your region
+        `arn:aws:bedrock:${Stack.of(this).region}::foundation-model/*`
+      ]
+    });
+    taskDefinition.taskRole.addToPrincipalPolicy(bedrockPolicy);
+
     // Grant task role access to S3 and Secrets Manager
     props.configBucket.grantRead(taskDefinition.taskRole);
     props.mongoSecret.grantRead(taskDefinition.taskRole);
     props.secretTokens.grantRead(taskDefinition.taskRole);
 
+    // Grant EFS access with specific permissions
+    const efsPolicy = new iam.PolicyStatement({
+      actions: [
+        'elasticfilesystem:ClientMount',
+        'elasticfilesystem:ClientWrite',
+        'elasticfilesystem:ClientRootAccess'
+      ],
+      resources: [props.fileSystem.fileSystemArn]
+    });
+    taskDefinition.taskRole.addToPrincipalPolicy(efsPolicy);
+
+
     // For the ECS agent to fetch secrets and env files
     props.configBucket.grantRead(taskDefinition.executionRole!);
     props.mongoSecret.grantRead(taskDefinition.executionRole!);
     props.secretTokens.grantRead(taskDefinition.executionRole!);
+
+    // Add EFS volume to task definition
+    const volumeName = 'librechat-data';
+    taskDefinition.addVolume({
+      name: volumeName,
+      efsVolumeConfiguration: {
+        fileSystemId: props.fileSystem.fileSystemId,
+        transitEncryption: 'ENABLED',
+        authorizationConfig: {
+          accessPointId: props.accessPoint.accessPointId,
+          iam: 'ENABLED',
+        },
+      },
+    });
 
     // Create init container to copy config from S3
     const initContainer = taskDefinition.addContainer('init', {
@@ -157,7 +209,6 @@ export class LibreChatService extends Construct {
         // MongoDB secrets
         MONGO_URI: ecs.Secret.fromSecretsManager(props.mongoSecret, 'MONGO_URI'),
         MONGODB_DATABASE: ecs.Secret.fromSecretsManager(props.mongoSecret, 'dbname'),
-        
         // LibreChat security tokens
         CREDS_KEY: ecs.Secret.fromSecretsManager(props.secretTokens, 'CREDS_KEY'),
         CREDS_IV: ecs.Secret.fromSecretsManager(props.secretTokens, 'CREDS_IV'),
@@ -181,6 +232,7 @@ export class LibreChatService extends Construct {
           `https://${props.domainName}` : 
           `http://${this.loadBalancer.loadBalancerDnsName}`,
         MEILI_HOST: 'http://meilisearch:7700',
+        RAG_API_URL: 'http://librechat-rag:8000',
         CONFIG_PATH: "/app/librechat/config/librechat.yaml",
         ENABLE_STARTUP_PROMPT: 'true',
         DISABLE_REGISTRATION: process.env.DISABLE_REGISTRATION || 'false'
@@ -194,6 +246,11 @@ export class LibreChatService extends Construct {
       containerPath: '/app/librechat/config',
       readOnly: true,
       sourceVolume: 'config'
+    });
+    container.addMountPoints({
+      containerPath: '/app/librechat/public/images',
+      readOnly: false,
+      sourceVolume: volumeName
     });
 
     // Add mount points for config files to main container
@@ -229,12 +286,19 @@ export class LibreChatService extends Construct {
       'Allow MongoDB access'
     );
 
+    // Allow EFS access from the Fargate service
+    props.fileSystem.connections.allowDefaultPortFrom(
+      serviceSecurityGroup,
+      'Allow EFS access from Meilisearch service'
+    );
+
     // Create Fargate Service
     this.service = new ecs.FargateService(this, 'Service', {
       cluster: props.cluster,
       taskDefinition,
       desiredCount: 1,
       assignPublicIp: false,
+      enableExecuteCommand: true,
       securityGroups: [serviceSecurityGroup],
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       cloudMapOptions: {

@@ -51,13 +51,19 @@ def handler(event, context):
 
                 if not role_exists:
                     # Create bedrock_user role
-                    cur.execute(f"CREATE ROLE rag WITH PASSWORD %s LOGIN;", (rag_creds['POSTGRES_PASSWORD'],))
+                    cur.execute("""
+                        CREATE ROLE rag WITH  
+                        CREATEDB  
+                        LOGIN 
+                        INHERIT
+                        PASSWORD %s;
+                    """, (rag_creds['POSTGRES_PASSWORD'],))
                     print("Created rag role")
                 else:
                     print("Role 'rag' already exists")
 
                 # Grant privileges
-                cur.execute(f"GRANT ALL PRIVILEGES ON DATABASE {database_name} TO rag;")
+                cur.execute(f"GRANT rds_superuser TO rag;")
                 print("Granted privileges to rag role")
 
         except psycopg2.Error as e:
