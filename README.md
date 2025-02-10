@@ -1,4 +1,4 @@
-# LibreChat AWS Deployment Guide
+# LibreChat AWS Deployment Guide [Work in Progress]
 
 ## Architecture Overview
 
