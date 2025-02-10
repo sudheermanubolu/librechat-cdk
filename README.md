@@ -2,7 +2,7 @@
 
 ## Architecture Overview
 
-![LibreChat AWS Architecture](images/Librechat_AWS-architecture.png)
+![LibreChat on AWS ECS Architecture](images/Librechat_AWS-architecture.png)
 
 ## Prerequisites
 
