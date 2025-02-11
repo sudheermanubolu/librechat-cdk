@@ -248,7 +248,7 @@ export class LibreChatService extends Construct {
       sourceVolume: 'config'
     });
     container.addMountPoints({
-      containerPath: '/app/librechat/public/images',
+      containerPath: '/app/client/public/images',
       readOnly: false,
       sourceVolume: volumeName
     });

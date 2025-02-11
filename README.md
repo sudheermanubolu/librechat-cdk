@@ -16,7 +16,7 @@
 2. **AWS Account Requirements**
    - AWS Account with administrative privileges
    - AWS CLI configured with appropriate credentials
-   - A registered domain in Route53 (if using HTTPS)
+   - A registered domain in Route53 (if using HTTPS and Route53)
    - SSL certificate in AWS Certificate Manager (if using HTTPS)
 
 ## Configuration Steps
@@ -95,19 +95,19 @@
 
 2. **Docker Requirements**
    - Ensure Docker Desktop is running before deployment
-   - The CDK stack uses Docker to build and push container images
+   - The CDK stack uses Docker for lambda layer configuration.
 
 3. **Cost Considerations**
    - The deployment includes:
      - DocumentDB cluster
-     - Aurora PostgreSQL cluster
+     - Aurora PostgreSQL serverless cluster
      - NAT Gateway
      - Application Load Balancer
      - ECS Fargate containers
+     - Secrets Manager
    - Review the AWS pricing calculator for estimated costs
 
 4. **Security**
-   - Update all API keys and secrets in librechat.env
    - Follow AWS security best practices
    - Regularly update container images and dependencies
 
@@ -117,11 +117,11 @@
    - Docker not running: Ensure Docker Desktop is started
    - CDK bootstrap errors: Verify AWS credentials and permissions
    - Domain/SSL issues: Verify certificate ARN and domain configuration
+   - expired credentials - make sure terminal has valid aws credentials and run cdk deploy again. 
 
 2. **Logs and Monitoring**
    - CloudWatch Logs for container logs
    - CloudWatch Metrics for performance monitoring
-   - AWS X-Ray for distributed tracing (if enabled)
 
 ## Clean Up
 
