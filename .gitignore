@@ -43,8 +43,6 @@ layers/**/*.zip
 .idea/
 
 # AWS
-*.pem
-global-bundle.pem
 .aws-sam/
 
 # OS generated files

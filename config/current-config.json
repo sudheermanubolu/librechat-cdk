@@ -55,6 +55,6 @@
   },
   "domain": {
     "name": "your-domain.com",
-    "certificateArn": "arn:aws:acm:us-east-1:834536439130:certificate/63d67879-ce35-4928-8b6b-00ca28903f0d"
+    "certificateArn": "arn:aws:acm:region:account:certificate/certificate-id"
   }
 }
