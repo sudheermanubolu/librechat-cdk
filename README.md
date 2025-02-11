@@ -1,4 +1,6 @@
-# LibreChat AWS Deployment Guide [Work in Progress]
+# LibreChat on AWS: Architecture and Deployment on ECS 
+
+LibreChat is a powerful chat application that can be deployed on AWS using ECS (Elastic Container Service). This guide provides an overview of the architecture and steps to deploy LibreChat on AWS.
 
 ## Architecture Overview
 
