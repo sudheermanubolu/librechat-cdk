@@ -119,6 +119,8 @@ export class LibreChatCdkStack extends cdk.Stack {
             fileSystem: efsStorage.fileSystem,
             accessPoint: efsStorage.meiliSearchAccessPoint,
         });
+        // add explicit dependency on ECS cluster and namespace
+        meilisearchService.service.node.addDependency(this.ecsCluster.defaultCloudMapNamespace!);
 
         efsStorage.fileSystem.connections.allowFrom(
             meilisearchService.service.connections,
@@ -136,6 +138,8 @@ export class LibreChatCdkStack extends cdk.Stack {
             config: this.props.config,
             secretTokens: props.secretTokens,
         });
+        // add explicit dependency on ECS cluster and namespace
+        ragApiService.service.node.addDependency(this.ecsCluster.defaultCloudMapNamespace!);
 
         // Create LibreChat Service
         const libreChatService = new LibreChatService(this, 'LibreChatService', {
