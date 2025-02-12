@@ -47,21 +47,7 @@ export class LibreSecretTokensStack extends cdk.Stack {
         },
         physicalResourceId: custom.PhysicalResourceId.of('GenerateHexKeys')
       },
-      onUpdate: {
-        service: 'SecretsManager',
-        action: 'updateSecret',
-        parameters: {
-          SecretId: secret.secretArn,
-          SecretString: JSON.stringify({
-            CREDS_KEY: generateHexKey(32),
-            CREDS_IV: generateHexKey(16),
-            JWT_SECRET: generateHexKey(32),
-            JWT_REFRESH_SECRET: generateHexKey(32),
-            MEILI_MASTER_KEY: generateHexKey(16)
-          })
-        },
-        physicalResourceId: custom.PhysicalResourceId.of('GenerateHexKeys')
-      },
+      
       policy: custom.AwsCustomResourcePolicy.fromSdkCalls({
         resources: [secret.secretArn]
       })
