@@ -38,7 +38,7 @@ LibreChat is a chat application that can be deployed on AWS using ECS (Elastic C
 
    Update the following configuration files based on your requirements:
 
-   a. **config/default-config.json**
+   a. **config/config.json**
    - VPC Configuration
    - Region settings
    - Container images

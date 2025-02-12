@@ -177,6 +177,27 @@ export class LibreChatCdkStack extends cdk.Stack {
             'Allow access from LibreChat service to RAG API service'
         );
 
+        // Add stack outputs
+        new cdk.CfnOutput(this, 'LibreChatServiceUrl', {
+            value: `https://${props.config.domain.name}`,
+            description: 'URL for the LibreChat application',
+        });
+
+        new cdk.CfnOutput(this, 'DocumentDBEndpoint', {
+            value: this.documentDb.cluster.clusterEndpoint.hostname,
+            description: 'DocumentDB cluster endpoint',
+        });
+
+        new cdk.CfnOutput(this, 'EFSFileSystemId', {
+            value: efsStorage.fileSystem.fileSystemId,
+            description: 'EFS File System ID',
+        });
+
+        new cdk.CfnOutput(this, 'LoadBalancerDNS', {
+            value: libreChatService.loadBalancer.loadBalancerDnsName,
+            description: 'DNS name of the Application Load Balancer',
+        });
+
         this.addTags();
     }
 

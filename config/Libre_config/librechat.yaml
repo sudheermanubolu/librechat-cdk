@@ -60,7 +60,7 @@ endpoints:
     #   - "tools"
   bedrock:
     availableRegions:
-      - "us-east-1"
+      - "us-west-2"
   assistants:
     disableBuilder: false # Disable Assistants Builder Interface by setting to `true`
     pollIntervalMs: 750  # Polling interval for checking assistant updates
