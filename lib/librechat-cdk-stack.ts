@@ -11,6 +11,7 @@ import { LibreChatService } from './constructs/compute/services/librechat-servic
 import { MeilisearchService } from './constructs/compute/services/meilisearch';
 import { ConfigBucket } from './constructs/storage/config-bucket';
 import { RagApiService } from './constructs/compute/services/rag-api';
+import { LibreChatDashboard } from './constructs/monitoring/dashboard';
 
 
 export class LibreChatCdkStack extends cdk.Stack {
@@ -200,6 +201,24 @@ export class LibreChatCdkStack extends cdk.Stack {
             description: 'DNS name of the Application Load Balancer',
         });
 
+        // Create CloudWatch Dashboard for operational visibility
+        const dashboard = new LibreChatDashboard(this, 'LibreChatDashboard', {
+            dashboardName: `LibreChat-${this.props.config.region}-Dashboard`,
+            loadBalancer: libreChatService.loadBalancer,
+            targetGroup: libreChatService.targetGroup,
+            libreChatService: libreChatService.service,
+            meilisearchService: meilisearchService.service,
+            ragApiService: ragApiService.service,
+            documentDbCluster: this.documentDb.cluster,
+            postgresCluster: postgres.cluster,
+            region: this.props.config.region,
+        });
+
+        new cdk.CfnOutput(this, 'DashboardURL', {
+            value: `https://console.aws.amazon.com/cloudwatch/home?region=${this.props.config.region}#dashboards:name=${dashboard.dashboard.dashboardName}`,
+            description: 'CloudWatch Dashboard URL',
+        });
+
         this.addTags();
     }
 
@@ -217,5 +236,14 @@ export class LibreChatCdkStack extends cdk.Stack {
                 cdk.Tags.of(this).add(key, value);
             }
         });
+        
+        // Apply Aurora database tags from config if available
+        if (this.props.config.aurora?.database?.tags) {
+            Object.entries(this.props.config.aurora.database.tags).forEach(([key, value]) => {
+                if (value) {
+                    cdk.Tags.of(this).add(key, value);
+                }
+            });
+        }
     }
 }

@@ -29,6 +29,7 @@ export interface LibreChatServiceProps {
 export class LibreChatService extends Construct {
   public readonly service: ecs.FargateService;
   public readonly loadBalancer: elbv2.ApplicationLoadBalancer;
+  public readonly targetGroup: elbv2.ApplicationTargetGroup;
 
   constructor(scope: Construct, id: string, props: LibreChatServiceProps) {
     super(scope, id);
@@ -62,8 +63,14 @@ export class LibreChatService extends Construct {
         unhealthyThresholdCount: 2,
         healthyHttpCodes: '200-399'
       },
-      deregistrationDelay: cdk.Duration.seconds(30)
+      deregistrationDelay: cdk.Duration.seconds(30),
+      // Enable sticky sessions to maintain user session affinity
+      stickinessCookieDuration: cdk.Duration.seconds(900), // 15 minutes to match SESSION_EXPIRY
+      stickinessCookieName: 'LIBRECHAT_ALB_COOKIE',
     });
+
+    // Store target group for external access
+    this.targetGroup = targetGroup;
 
     // Add listeners
     if (props.certificateArn && props.domainName) {
