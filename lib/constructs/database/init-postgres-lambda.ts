@@ -37,6 +37,7 @@ export class InitPostgresLambda extends Construct {
     // Create Lambda function
     this.handler = new lambda.Function(this, 'InitPostgresHandler', {
       runtime: lambda.Runtime.PYTHON_3_9,
+      architecture: lambda.Architecture.X86_64,
       handler: 'init_postgres.handler',
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../src/lambda')),
       timeout: cdk.Duration.minutes(5),

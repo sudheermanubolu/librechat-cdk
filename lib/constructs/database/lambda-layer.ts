@@ -15,14 +15,14 @@ export class DatabaseLayer extends Construct {
         lambda.Runtime.PYTHON_3_11
       ],
       compatibleArchitectures: [lambda.Architecture.X86_64], // Explicitly specify compatible architecture
-      description: 'Lambda layer containing pymongo and psycopg2 packages',
+      description: 'Lambda layer containing pymongo and psycopg2 packages (v2)',
       code: lambda.Code.fromAsset('src/lambda-layers/database-layer', {
         bundling: {
-          image: lambda.Runtime.PYTHON_3_9.bundlingImage,
+          image: cdk.DockerImage.fromRegistry('public.ecr.aws/sam/build-python3.9'),
           platform: 'linux/amd64', // Force x86_64 architecture
           command: [
             'bash', '-c',
-            'pip install -r requirements.txt -t /asset-output/python && ' +
+            'pip install --no-cache-dir --platform manylinux2014_x86_64 --implementation cp --python-version 39 --only-binary=:all: -r requirements.txt -t /asset-output/python && ' +
             'cp requirements.txt /asset-output/'
           ],
           environment: {
