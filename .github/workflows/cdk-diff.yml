@@ -1,0 +1,80 @@
+name: CDK Diff (PR Check)
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+  AWS_REGION: eu-north-1
+  NODE_VERSION: '20'
+
+jobs:
+  diff:
+    name: CDK Diff
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR Public
+        run: |
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+
+      - name: CDK Synth
+        run: npx cdk synth --all
+
+      - name: CDK Diff
+        id: diff
+        run: |
+          npx cdk diff --all 2>&1 | tee diff_output.txt
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          cat diff_output.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment PR with Diff
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const diff = `${{ steps.diff.outputs.diff }}`;
+            const body = `## CDK Diff Results
+
+            <details>
+            <summary>Click to expand CDK diff output</summary>
+
+            \`\`\`
+            ${diff.substring(0, 60000)}
+            \`\`\`
+
+            </details>
+
+            > Note: Output truncated if longer than 60000 characters
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

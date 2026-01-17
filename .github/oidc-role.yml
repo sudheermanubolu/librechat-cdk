@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: GitHub Actions OIDC Role for CDK Deployment
+
+Parameters:
+  GitHubOrg:
+    Type: String
+    Default: Doktransfers
+    Description: GitHub organization name
+
+  GitHubRepo:
+    Type: String
+    Default: librechat-cdk
+    Description: GitHub repository name
+
+Resources:
+  GitHubOIDCProvider:
+    Type: AWS::IAM::OIDCProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList:
+        - sts.amazonaws.com
+      ThumbprintList:
+        - 6938fd4d98bab03faadb97b34396831e3780aea1
+        - 1c58a3a8518e8759bf075b76b750d4f2df264fcd
+
+  GitHubActionsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: github-actions-librechat-cdk
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !GetAtt GitHubOIDCProvider.Arn
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+              StringLike:
+                token.actions.githubusercontent.com:sub: !Sub 'repo:${GitHubOrg}/${GitHubRepo}:*'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+      Tags:
+        - Key: Application
+          Value: librechat-cdk
+        - Key: ManagedBy
+          Value: CloudFormation
+
+Outputs:
+  RoleArn:
+    Description: ARN of the GitHub Actions role
+    Value: !GetAtt GitHubActionsRole.Arn
+    Export:
+      Name: GitHubActionsLibreChatCDKRoleArn
