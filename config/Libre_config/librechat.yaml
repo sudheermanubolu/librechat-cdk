@@ -59,8 +59,12 @@ endpoints:
     #   - "actions"
     #   - "tools"
   bedrock:
+    # LibreChat Bedrock configuration for eu-north-1
     availableRegions:
-      - "us-west-2"
+      - "eu-north-1"
+    streamRate: 35
+    # Use Haiku for title generation (cost-effective)
+    titleModel: "anthropic.claude-haiku-4-5-20251001-v1:0"
   assistants:
     disableBuilder: false # Disable Assistants Builder Interface by setting to `true`
     pollIntervalMs: 750  # Polling interval for checking assistant updates
