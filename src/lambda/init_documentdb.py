@@ -156,8 +156,32 @@ def handler(event, context):
                 print(f"User creation error: {str(user_error)}")
                 raise
         else:
-            print("User 'librechat-dbuser' already exists, skipping creation")
-        
+            print("User 'librechat-dbuser' already exists, updating secret with correct MONGO_URI")
+            # Update secret with correct MONGO_URI even if user exists
+            new_secret = {
+                'username': 'librechat-dbuser',
+                'password': app_password,
+                'host': host,
+                'port': 27017,
+                'dbname': 'LibreChat',
+                'MONGO_URI': (
+                    f"mongodb://librechat-dbuser:{encoded_app_password}@"
+                    f"{host}:27017/LibreChat"
+                    "?authSource=admin"
+                    "&authMechanism=SCRAM-SHA-1"
+                    "&tls=true"
+                    "&tlsCAFile=/app/librechat/config/global-bundle.pem"
+                    "&replicaSet=rs0"
+                    "&readPreference=secondaryPreferred"
+                    "&retryWrites=false"
+                )
+            }
+            secrets_client.update_secret(
+                SecretId=os.environ['LIBRECHAT_USER_SECRET_ARN'],
+                SecretString=json.dumps(new_secret)
+            )
+            print("Secret updated with correct MONGO_URI")
+
         return {
             'statusCode': 200,
             'body': json.dumps({

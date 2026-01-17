@@ -26,7 +26,12 @@
       "Bash(docker system prune:*)",
       "Bash(open:*)",
       "Bash(pkill:*)",
-      "Bash(du:*)"
+      "Bash(du:*)",
+      "Bash(grep:*)",
+      "mcp__ecs__ecs_troubleshooting_tool",
+      "mcp__ecs__ecs_resource_management",
+      "Bash(AWS_PROFILE=vestransfers AWS_REGION=eu-north-1 aws ecs list-clusters:*)",
+      "Bash(AWS_PROFILE=vestransfers AWS_REGION=eu-north-1 aws ecs describe-tasks:*)"
     ]
   }
 }

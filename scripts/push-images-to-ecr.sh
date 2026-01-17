@@ -10,12 +10,14 @@ AWS_ACCOUNT_ID=$(aws sts get-caller-identity --profile $AWS_PROFILE --query Acco
 LIBRECHAT_SOURCE="ghcr.io/danny-avila/librechat:latest"
 MEILISEARCH_SOURCE="getmeili/meilisearch:v1.12.3"
 RAG_API_SOURCE="ghcr.io/danny-avila/librechat-rag-api-dev:latest"
+AWS_CLI_SOURCE="public.ecr.aws/aws-cli/aws-cli:latest"
 
 # ECR repository URIs
 ECR_BASE="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 LIBRECHAT_TARGET="${ECR_BASE}/librechat/librechat:latest"
 MEILISEARCH_TARGET="${ECR_BASE}/librechat/meilisearch:v1.12.3"
 RAG_API_TARGET="${ECR_BASE}/librechat/rag-api:latest"
+AWS_CLI_TARGET="${ECR_BASE}/librechat/aws-cli:latest"
 
 echo "=== Pushing images to ECR ==="
 echo "AWS Account: ${AWS_ACCOUNT_ID}"
@@ -54,6 +56,7 @@ push_image() {
 push_image "${LIBRECHAT_SOURCE}" "${LIBRECHAT_TARGET}" "LibreChat"
 push_image "${MEILISEARCH_SOURCE}" "${MEILISEARCH_TARGET}" "Meilisearch"
 push_image "${RAG_API_SOURCE}" "${RAG_API_TARGET}" "RAG API"
+push_image "${AWS_CLI_SOURCE}" "${AWS_CLI_TARGET}" "AWS CLI"
 
 echo ""
 echo "=== All images pushed successfully! ==="

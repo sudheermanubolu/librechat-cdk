@@ -81,7 +81,7 @@ export class DocumentDB extends Construct {
           dbname: 'LibreChat',
           replicaSet: 'rs0',
           readPreference: 'secondaryPreferred',
-          MONGO_URI: `mongodb://librechat-dbuser:dummy-password@${this.cluster.clusterEndpoint.hostname}:27017/LibreChat?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
+          MONGO_URI: `mongodb://librechat-dbuser:dummy-password@${this.cluster.clusterEndpoint.hostname}:27017/LibreChat?tls=true&tlsCAFile=/app/librechat/config/global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
         }),
         generateStringKey: 'password',
         excludePunctuation: true,
