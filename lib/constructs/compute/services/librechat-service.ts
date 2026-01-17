@@ -107,6 +107,10 @@ export class LibreChatService extends Construct {
       memoryLimitMiB: 4096,
       cpu: 2048,
       ephemeralStorageGiB: 21,
+      runtimePlatform: {
+        cpuArchitecture: ecs.CpuArchitecture.ARM64,
+        operatingSystemFamily: ecs.OperatingSystemFamily.LINUX,
+      },
       // Explicitly create the task role
       taskRole: new iam.Role(this, 'LibreChatTaskRole', {
         assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
@@ -180,9 +184,10 @@ export class LibreChatService extends Construct {
       },
     });
 
-    // Create init container to copy config from S3
+    // Create init container to copy config from S3 (using ECR image to avoid public internet access)
+    const awsCliImage = `${Stack.of(this).account}.dkr.ecr.${Stack.of(this).region}.amazonaws.com/librechat/aws-cli:latest`;
     const initContainer = taskDefinition.addContainer('init', {
-      image: ecs.ContainerImage.fromRegistry('public.ecr.aws/aws-cli/aws-cli:latest'),
+      image: ecs.ContainerImage.fromRegistry(awsCliImage),
       command: [
         's3',
         'cp',

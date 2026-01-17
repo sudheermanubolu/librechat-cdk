@@ -11,6 +11,7 @@ import { LibreChatService } from './constructs/compute/services/librechat-servic
 import { MeilisearchService } from './constructs/compute/services/meilisearch';
 import { ConfigBucket } from './constructs/storage/config-bucket';
 import { RagApiService } from './constructs/compute/services/rag-api';
+import { EcrRepositories } from './constructs/storage/ecr-repositories';
 
 
 export class LibreChatCdkStack extends cdk.Stack {
@@ -118,6 +119,9 @@ export class LibreChatCdkStack extends cdk.Stack {
 
         // Create S3 bucket for config files
         const configBucket = new ConfigBucket(this, `config-bucket-${process.env.ENVIRONMENT || 'XXX'}`);
+
+        // Create ECR repositories for container images (imported, for outputs)
+        new EcrRepositories(this, 'EcrRepositories');
 
 
         const meilisearchService = new MeilisearchService(this, 'MeilisearchService', {

@@ -51,6 +51,10 @@ export class RagApiService extends Construct {
     const taskDefinition = new ecs.FargateTaskDefinition(this, 'TaskDef', {
       memoryLimitMiB: 2048,
       cpu: 1024,
+      runtimePlatform: {
+        cpuArchitecture: ecs.CpuArchitecture.ARM64,
+        operatingSystemFamily: ecs.OperatingSystemFamily.LINUX,
+      },
       taskRole: new iam.Role(this, 'TaskRole', {
         assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
         managedPolicies: [

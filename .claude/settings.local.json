@@ -10,7 +10,23 @@
       "Bash(gh run list:*)",
       "Bash(gh run view:*)",
       "Bash(gh api:*)",
-      "Bash(npx cdk:*)"
+      "Bash(npx cdk:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(aws cloudformation describe-stacks:*)",
+      "Bash(aws cloudformation describe-stack-events:*)",
+      "Bash(AWS_PROFILE=vestransfer curl:*)",
+      "Bash(AWS_PROFILE=vestransfer aws ecr-public:*)",
+      "Bash(aws ecr-public describe-images:*)",
+      "Bash(aws cloudformation list-stacks:*)",
+      "Bash(AWS_PROFILE=vestransfers aws ecr-public get-authorization-token:*)",
+      "Bash(aws configure:*)",
+      "Bash(done)",
+      "Bash(__NEW_LINE_ff03a709bef141e5__ echo \"\")",
+      "Bash(docker system prune:*)",
+      "Bash(open:*)",
+      "Bash(pkill:*)",
+      "Bash(du:*)"
     ]
   }
 }

@@ -1,0 +1,176 @@
+name: Build and Push Docker Images to ECR
+
+on:
+  workflow_dispatch:
+    inputs:
+      librechat_version:
+        description: 'LibreChat version/tag to build'
+        required: false
+        default: 'v0.7.6'
+      meilisearch_version:
+        description: 'Meilisearch version'
+        required: false
+        default: 'v1.12.3'
+      rag_api_version:
+        description: 'RAG API version/tag'
+        required: false
+        default: 'latest'
+      build_librechat:
+        description: 'Build LibreChat image'
+        type: boolean
+        default: true
+      build_meilisearch:
+        description: 'Build Meilisearch image'
+        type: boolean
+        default: true
+      build_rag_api:
+        description: 'Build RAG API image'
+        type: boolean
+        default: true
+      build_aws_cli:
+        description: 'Build AWS CLI image'
+        type: boolean
+        default: true
+
+env:
+  AWS_REGION: eu-north-1
+  ECR_REGISTRY: 291515987508.dkr.ecr.eu-north-1.amazonaws.com
+  PLATFORM: linux/arm64
+
+jobs:
+  build-librechat:
+    if: ${{ inputs.build_librechat }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Clone LibreChat
+        run: |
+          git clone --depth 1 --branch ${{ inputs.librechat_version }} https://github.com/danny-avila/LibreChat.git
+          cd LibreChat
+
+      - name: Build and push LibreChat
+        uses: docker/build-push-action@v5
+        with:
+          context: ./LibreChat
+          file: ./LibreChat/Dockerfile
+          platforms: ${{ env.PLATFORM }}
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/librechat/librechat:latest
+            ${{ env.ECR_REGISTRY }}/librechat/librechat:${{ inputs.librechat_version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  build-meilisearch:
+    if: ${{ inputs.build_meilisearch }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Pull and push Meilisearch
+        run: |
+          # Pull the official ARM64 image
+          docker pull --platform ${{ env.PLATFORM }} getmeili/meilisearch:${{ inputs.meilisearch_version }}
+
+          # Tag for ECR
+          docker tag getmeili/meilisearch:${{ inputs.meilisearch_version }} \
+            ${{ env.ECR_REGISTRY }}/librechat/meilisearch:${{ inputs.meilisearch_version }}
+          docker tag getmeili/meilisearch:${{ inputs.meilisearch_version }} \
+            ${{ env.ECR_REGISTRY }}/librechat/meilisearch:latest
+
+          # Push to ECR
+          docker push ${{ env.ECR_REGISTRY }}/librechat/meilisearch:${{ inputs.meilisearch_version }}
+          docker push ${{ env.ECR_REGISTRY }}/librechat/meilisearch:latest
+
+  build-rag-api:
+    if: ${{ inputs.build_rag_api }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Clone RAG API
+        run: |
+          git clone --depth 1 https://github.com/danny-avila/rag_api.git
+          cd rag_api
+
+      - name: Build and push RAG API
+        uses: docker/build-push-action@v5
+        with:
+          context: ./rag_api
+          file: ./rag_api/Dockerfile
+          platforms: ${{ env.PLATFORM }}
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/librechat/rag-api:latest
+            ${{ env.ECR_REGISTRY }}/librechat/rag-api:${{ inputs.rag_api_version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  build-aws-cli:
+    if: ${{ inputs.build_aws_cli }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Pull and push AWS CLI
+        run: |
+          # Pull the official ARM64 image
+          docker pull --platform ${{ env.PLATFORM }} public.ecr.aws/aws-cli/aws-cli:latest
+
+          # Tag for ECR
+          docker tag public.ecr.aws/aws-cli/aws-cli:latest \
+            ${{ env.ECR_REGISTRY }}/librechat/aws-cli:latest
+
+          # Push to ECR
+          docker push ${{ env.ECR_REGISTRY }}/librechat/aws-cli:latest
