@@ -100,6 +100,13 @@ export class DocumentDB extends Construct {
       libreChatUserSecret: this.libreChatUserSecret
     });
 
+    // Allow Lambda security group to access DocumentDB
+    dbSecurityGroup.addIngressRule(
+      initLambda.securityGroup,
+      ec2.Port.tcp(this.port),
+      'Allow Lambda init function to access DocumentDB'
+    );
+
     // Ensure Lambda is created after cluster and secrets
     initLambda.handler.node.addDependency(this.cluster);
     initLambda.handler.node.addDependency(this.libreChatUserSecret);

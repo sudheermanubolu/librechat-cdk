@@ -60,6 +60,7 @@ endpoints:
     #   - "tools"
   bedrock:
     # LibreChat Bedrock configuration for eu-north-1
+    # Updated 2026-01-17: Use models actually available in eu-north-1
     availableRegions:
       - "eu-north-1"
     streamRate: 35
@@ -75,7 +76,7 @@ endpoints:
   #   Only show assistants that the user created or that were created externally (e.g. in Assistants playground).
   #   # privateAssistants: false # Does not work with `supportedIds` or `excludedIds`
   #   # (optional) Models that support retrieval, will default to latest known OpenAI models that support the feature
-    retrievalModels: ["anthropic.claude-3-5-sonnet-20241022-v2:0"]
+    retrievalModels: ["anthropic.claude-3-7-sonnet-20250219-v1:0"]
   #   # (optional) Assistant Capabilities available to all users. Omit the ones you wish to exclude. Defaults to list below.
     capabilities: ["code_interpreter", "retrieval", "actions", "tools", "image_vision"]
   custom:

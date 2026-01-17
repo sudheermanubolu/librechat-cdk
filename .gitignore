@@ -65,3 +65,5 @@ temp_docs/
 config/config.local.json
 config/Libre_config/*.local.*
 S3_downloaded_*
+cdk.out.new
+cdk.out.deploy

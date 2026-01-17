@@ -17,6 +17,7 @@ interface InitDocumentDBLambdaProps {
 
 export class InitDocumentDBLambda extends Construct {
   public readonly handler: lambda.IFunction;
+  public readonly securityGroup: cdk.aws_ec2.SecurityGroup;
 
   constructor(scope: Construct, id: string, props: InitDocumentDBLambdaProps) {
     super(scope, id);
@@ -25,10 +26,10 @@ export class InitDocumentDBLambda extends Construct {
     const mongoDbLayer = new DatabaseLayer(this, 'MongoDBLayer');
 
     // Create Security Group first
-    const lambdaSecurityGroup = new cdk.aws_ec2.SecurityGroup(this, 'LambdaSecurityGroup', {
+    this.securityGroup = new cdk.aws_ec2.SecurityGroup(this, 'LambdaSecurityGroup', {
       vpc: props.vpc,
       description: 'Security group for Lambda function',
-      allowAllOutbound: true, 
+      allowAllOutbound: true,
     });
 
     // Add a version to the environment variables
@@ -45,7 +46,7 @@ export class InitDocumentDBLambda extends Construct {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS
       },
-      securityGroups: [lambdaSecurityGroup], // Assign the security group
+      securityGroups: [this.securityGroup], // Assign the security group
       layers: [mongoDbLayer.layer],
       memorySize: 256,
       logRetention: cdk.aws_logs.RetentionDays.ONE_WEEK,

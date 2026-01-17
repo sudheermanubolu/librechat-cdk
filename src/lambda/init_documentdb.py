@@ -2,14 +2,19 @@ import json
 import os
 import boto3
 from pymongo import MongoClient
-import urllib.request
+import shutil
 from datetime import datetime
 import urllib.parse
 
-def download_ca_certificate():
+def get_ca_certificate():
+    """
+    Copy the bundled CA certificate to /tmp for use.
+    The certificate is bundled with the Lambda package to avoid
+    requiring internet access (NAT gateway) in private subnets.
+    """
+    bundled_path = os.path.join(os.path.dirname(__file__), 'global-bundle.pem')
     ca_file_path = '/tmp/global-bundle.pem'
-    url = 'https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem'
-    urllib.request.urlretrieve(url, ca_file_path)
+    shutil.copy(bundled_path, ca_file_path)
     return ca_file_path
 
 def serialize_mongodb_response(obj):
@@ -31,9 +36,9 @@ def handler(event, context):
     try:
         print("Starting DocumentDB initialization...")
         
-        # Download the CA certificate
-        ca_file_path = download_ca_certificate()
-        print(f"Downloaded CA certificate to: {ca_file_path}")
+        # Get the bundled CA certificate
+        ca_file_path = get_ca_certificate()
+        print(f"Loaded CA certificate to: {ca_file_path}")
         
         # Initialize AWS clients
         secrets_client = boto3.client('secretsmanager')

@@ -109,6 +109,12 @@ export class LibreChatCdkStack extends cdk.Stack {
             service: ec2.GatewayVpcEndpointAwsService.S3,
         });
 
+        // Bedrock Runtime VPC Endpoint for model invocation
+        new ec2.InterfaceVpcEndpoint(this, 'BedrockRuntimeEndpoint', {
+            vpc: vpcConstruct.vpc,
+            service: ec2.InterfaceVpcEndpointAwsService.BEDROCK_RUNTIME,
+        });
+
         // Apply removal policy to cluster
         this.ecsCluster.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
@@ -209,6 +215,11 @@ export class LibreChatCdkStack extends cdk.Stack {
         new cdk.CfnOutput(this, 'LoadBalancerDNS', {
             value: libreChatService.loadBalancer.loadBalancerDnsName,
             description: 'DNS name of the Application Load Balancer',
+        });
+
+        new cdk.CfnOutput(this, 'LibreChatServiceName', {
+            value: libreChatService.service.serviceName,
+            description: 'LibreChat ECS Service Name',
         });
 
         this.addTags();
