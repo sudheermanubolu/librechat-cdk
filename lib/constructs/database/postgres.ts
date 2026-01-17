@@ -120,15 +120,14 @@ export class AuroraPostgres extends Construct {
         },
         physicalResourceId: custom_resources.PhysicalResourceId.of('InitPostgresCustomResource-' + Date.now())
       },
-      policy: custom_resources.AwsCustomResourcePolicy.fromStatements([
-        new iam.PolicyStatement({
-          actions: ['lambda:InvokeFunction'],
-          resources: [initLambda.handler.functionArn],
-          effect: iam.Effect.ALLOW
-        })
-      ])
+      policy: custom_resources.AwsCustomResourcePolicy.fromSdkCalls({
+        resources: custom_resources.AwsCustomResourcePolicy.ANY_RESOURCE
+      })
     });
-    
+
+    // Grant the custom resource role permission to invoke the Lambda
+    initLambda.handler.grantInvoke(customResource);
+
     // Ensure custom resource is created after Lambda function
     customResource.node.addDependency(initLambda.handler);
   }

@@ -18,6 +18,7 @@ export interface RagApiServiceProps {
   };
   configBucket: s3.IBucket;
   dbSecurityGroup: ec2.ISecurityGroup;
+  dbSecret: secretsmanager.ISecret;
   config: StackConfig;
   secretTokens: secretsmanager.ISecret;
 }
@@ -56,17 +57,7 @@ export class RagApiService extends Construct {
           iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
           iam.ManagedPolicy.fromAwsManagedPolicyName('AWSCloudMapDiscoverInstanceAccess')
         ],
-        inlinePolicies: {
-          'CloudMapAccess': new iam.PolicyDocument({
-            statements: [
-              new iam.PolicyStatement({
-                effect: iam.Effect.ALLOW,
-                actions: ['servicediscovery:*'],
-                resources: ['*']
-              })
-            ]
-          })
-        }
+        // Note: AWSCloudMapDiscoverInstanceAccess managed policy provides required service discovery permissions
       }),
       executionRole: new iam.Role(this, 'ExecutionRole', {
         assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
@@ -79,30 +70,11 @@ export class RagApiService extends Construct {
 
     props.configBucket.grantRead(taskDefinition.executionRole!);
 
-    // Add Bedrock and S3 permissions
-    taskDefinition.addToTaskRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: [
-          'bedrock:*',
-          's3:GetObject',
-          's3:ListBucket',
-        ],
-        resources: [
-          props.configBucket.arnForObjects('*'),
-          props.configBucket.bucketArn
-        ],
-      })
-    );
+    // S3 permissions for config bucket (Bedrock permissions added separately below)
     props.secretTokens.grantRead(taskDefinition.taskRole);
 
-    // Load secrets from Secrets Manager
-    const dbSecret = secretsmanager.Secret.fromSecretNameV2(
-      this, 
-      'RagDbSecret', 
-      'LibreChat/Postgres/rag_user'
-    );
-    dbSecret.grantRead(taskDefinition.executionRole!);
+    // Grant read access to secrets
+    props.dbSecret.grantRead(taskDefinition.executionRole!);
     props.secretTokens.grantRead(taskDefinition.executionRole!);
 
     
@@ -122,11 +94,11 @@ export class RagApiService extends Construct {
         )
       ],
       secrets: {
-        DB_HOST: ecs.Secret.fromSecretsManager(dbSecret, 'DB_HOST'),
-        DB_PORT: ecs.Secret.fromSecretsManager(dbSecret, 'DB_PORT'),
-        POSTGRES_DB: ecs.Secret.fromSecretsManager(dbSecret, 'POSTGRES_DB'),
-        POSTGRES_USER: ecs.Secret.fromSecretsManager(dbSecret, 'POSTGRES_USER'),
-        POSTGRES_PASSWORD: ecs.Secret.fromSecretsManager(dbSecret, 'POSTGRES_PASSWORD'),
+        DB_HOST: ecs.Secret.fromSecretsManager(props.dbSecret, 'DB_HOST'),
+        DB_PORT: ecs.Secret.fromSecretsManager(props.dbSecret, 'DB_PORT'),
+        POSTGRES_DB: ecs.Secret.fromSecretsManager(props.dbSecret, 'POSTGRES_DB'),
+        POSTGRES_USER: ecs.Secret.fromSecretsManager(props.dbSecret, 'POSTGRES_USER'),
+        POSTGRES_PASSWORD: ecs.Secret.fromSecretsManager(props.dbSecret, 'POSTGRES_PASSWORD'),
         // LibreChat security tokens
         CREDS_KEY: ecs.Secret.fromSecretsManager(props.secretTokens, 'CREDS_KEY'),
         CREDS_IV: ecs.Secret.fromSecretsManager(props.secretTokens, 'CREDS_IV'),

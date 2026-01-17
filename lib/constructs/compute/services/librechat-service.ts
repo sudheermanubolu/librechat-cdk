@@ -255,13 +255,7 @@ export class LibreChatService extends Construct {
       sourceVolume: volumeName
     });
 
-    // Add mount points for config files to main container
-    container.addContainerDependencies({
-      container: initContainer,
-      condition: ecs.ContainerDependencyCondition.COMPLETE
-    });
-    
-    // Configure container dependencies
+    // Configure container dependencies - wait for init container to complete
     container.addContainerDependencies({
       container: initContainer,
       condition: ecs.ContainerDependencyCondition.COMPLETE
@@ -279,13 +273,6 @@ export class LibreChatService extends Construct {
       ec2.Peer.securityGroupId(this.loadBalancer.connections.securityGroups[0].securityGroupId),
       ec2.Port.tcp(3080),
       'Allow inbound from ALB'
-    );
-
-    // Add ingress rule for DocumentDB
-    serviceSecurityGroup.addIngressRule(
-      ec2.Peer.ipv4(props.vpc.vpcCidrBlock),
-      ec2.Port.tcp(27017),
-      'Allow MongoDB access'
     );
 
     // Allow EFS access from the Fargate service

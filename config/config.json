@@ -15,7 +15,7 @@
       "tag": "latest"
     },
     "meiliSearchImage": {
-      "repository": "getmeili/meilisearch",
+      "repository": "public.ecr.aws/meilisearch/meilisearch",
       "tag": "v1.12.3"
     },
     "ragAPIImage": {

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx -y mcp-remote:*)",
+      "Bash(curl:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(AWS_PROFILE=vestransfers aws acm describe-certificate:*)",
+      "mcp__github__list_pull_requests",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh api:*)",
+      "Bash(npx cdk:*)"
+    ]
+  }
+}

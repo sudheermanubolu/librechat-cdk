@@ -102,6 +102,12 @@ export class LibreChatCdkStack extends cdk.Stack {
             service: ec2.InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
         });
 
+        // S3 Gateway Endpoint (required for ECS tasks to download env files from S3)
+        new ec2.GatewayVpcEndpoint(this, 'S3Endpoint', {
+            vpc: this.vpc,
+            service: ec2.GatewayVpcEndpointAwsService.S3,
+        });
+
         // Apply removal policy to cluster
         this.ecsCluster.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
@@ -136,6 +142,7 @@ export class LibreChatCdkStack extends cdk.Stack {
             cluster: this.ecsCluster,
             configBucket: configBucket,
             dbSecurityGroup: postgres.dbSecurityGroup,
+            dbSecret: postgres.bedrockUserSecret,
             ragAPIImage: this.props.config.container.ragAPIImage,
             config: this.props.config,
             secretTokens: props.secretTokens,

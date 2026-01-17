@@ -47,6 +47,9 @@ export class MeilisearchService extends Construct {
         }),
       executionRole: new iam.Role(this, 'ExecutionRole', {
         assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+        managedPolicies: [
+          iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonECSTaskExecutionRolePolicy')
+        ]
       })
     });
     // Grant EFS access to task role
@@ -107,12 +110,14 @@ export class MeilisearchService extends Construct {
     });
 
     // Create the Fargate service
+    // Note: minHealthyPercent: 0 allows rolling updates with single instance
+    // During deployments, the old task can be stopped before the new one starts
     this.service = new ecs.FargateService(this, 'Service', {
       cluster: props.cluster,
       taskDefinition,
       desiredCount: 1,
       maxHealthyPercent: 200,
-      minHealthyPercent: 100,
+      minHealthyPercent: 0,
       securityGroups: [serviceSecurityGroup],
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       enableExecuteCommand: true,
