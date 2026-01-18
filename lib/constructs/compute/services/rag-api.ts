@@ -141,7 +141,7 @@ export class RagApiService extends Construct {
       desiredCount: 1,
       maxHealthyPercent: 200,
       minHealthyPercent: 50,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetGroupName: 'Private' },
       assignPublicIp: false,
       enableExecuteCommand: true,
       serviceConnectConfiguration: {

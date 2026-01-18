@@ -22,7 +22,7 @@ export class EFSStorage extends Construct {
       throughputMode: efs.ThroughputMode.ELASTIC,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       vpcSubnets: {
-        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
+        subnetGroupName: 'Private'
       }
     });
 

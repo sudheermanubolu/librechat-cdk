@@ -5,7 +5,7 @@ export type Config = Readonly<{
     region: string;
     domain: {
         name: string;
-        certificateArn: string;
+        certificateArn?: string;
     };
     vpc: {
         useExisting: boolean;
@@ -14,6 +14,7 @@ export type Config = Readonly<{
             maxAzs: number;
             natGateways: number;
             cidr: string;
+            useVpcEndpoints?: boolean;
         };
     };
     aurora: {
@@ -69,6 +70,7 @@ export interface VpcConstructProps {
       maxAzs: number;
       natGateways: number;
       cidr: string;
+      useVpcEndpoints?: boolean;
     };
   }
   

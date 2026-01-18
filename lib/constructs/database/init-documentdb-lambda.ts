@@ -39,12 +39,13 @@ export class InitDocumentDBLambda extends Construct {
     // Create Lambda function
     this.handler = new lambda.Function(this, 'InitDocumentDBHandler', {
       runtime: lambda.Runtime.PYTHON_3_9,
+      architecture: lambda.Architecture.X86_64,
       handler: 'init_documentdb.handler',
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../src/lambda')),
       timeout: cdk.Duration.minutes(5),
       vpc: props.vpc,
       vpcSubnets: {
-        subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS
+        subnetGroupName: 'Private'
       },
       securityGroups: [this.securityGroup], // Assign the security group
       layers: [mongoDbLayer.layer],

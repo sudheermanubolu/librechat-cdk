@@ -12,6 +12,7 @@ import { MeilisearchService } from './constructs/compute/services/meilisearch';
 import { ConfigBucket } from './constructs/storage/config-bucket';
 import { RagApiService } from './constructs/compute/services/rag-api';
 import { EcrRepositories } from './constructs/storage/ecr-repositories';
+import { Certificate } from './constructs/network/certificate';
 
 
 export class LibreChatCdkStack extends cdk.Stack {
@@ -36,8 +37,8 @@ export class LibreChatCdkStack extends cdk.Stack {
         if (!this.props.config?.region) {
             throw new Error('Region configuration is required');
         }
-        if (!this.props.config?.domain?.name || !this.props.config?.domain?.certificateArn) {
-            throw new Error('Domain configuration is required');
+        if (!this.props.config?.domain?.name) {
+            throw new Error('Domain name configuration is required');
         }
 
         // Create or import VPC
@@ -160,6 +161,17 @@ export class LibreChatCdkStack extends cdk.Stack {
         // add explicit dependency on ECS cluster and namespace
         ragApiService.service.node.addDependency(this.ecsCluster.defaultCloudMapNamespace!);
 
+        // Create or import SSL certificate
+        let certificateArn: string;
+        if (props.config.domain.certificateArn) {
+            certificateArn = props.config.domain.certificateArn;
+        } else {
+            const certificate = new Certificate(this, 'Certificate', {
+                domainName: props.config.domain.name,
+            });
+            certificateArn = certificate.certificate.certificateArn;
+        }
+
         // Create LibreChat Service
         const libreChatService = new LibreChatService(this, 'LibreChatService', {
             vpc: this.vpc,
@@ -170,7 +182,7 @@ export class LibreChatCdkStack extends cdk.Stack {
                 console.log('Domain config:', props.config.domain);
                 return props.config.domain.name;
             })(),
-            certificateArn: props.config.domain.certificateArn,
+            certificateArn: certificateArn,
             mongoSecret: this.documentDb.libreChatUserSecret,
             secretTokens: props.secretTokens,
             libreChatImage: props.config.container.libreChatImage,

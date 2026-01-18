@@ -1,0 +1,959 @@
+{
+  "numStartups": 129,
+  "installMethod": "native",
+  "autoUpdates": false,
+  "hasSeenTasksHint": true,
+  "tipsHistory": {
+    "new-user-warmup": 7,
+    "plan-mode-for-complex-tasks": 122,
+    "memory-command": 121,
+    "theme-command": 121,
+    "status-line": 127,
+    "stickers-command": 121,
+    "prompt-queue": 1,
+    "enter-to-steer-in-relatime": 121,
+    "todo-list": 121,
+    "vscode-command-install": 127,
+    "install-github-app": 128,
+    "install-slack-app": 128,
+    "drag-and-drop-images": 128,
+    "paste-images-mac": 128,
+    "double-esc-code-restore": 128,
+    "default-permission-mode-config": 128,
+    "continue": 128,
+    "shift-tab": 128,
+    "image-paste": 123,
+    "config-thinking-mode": 44,
+    "ultrathink-keyword": 116,
+    "btw-side-question": 44,
+    "desktop-app": 124,
+    "web-app": 124,
+    "mobile-app": 124,
+    "shift-enter": 128,
+    "guest-passes": 123,
+    "custom-agents": 128,
+    "frontend-design-plugin": 118,
+    "permissions": 128,
+    "rename-conversation": 120,
+    "custom-commands": 120,
+    "ide-upsell-external-terminal": 79,
+    "git-worktrees": 128
+  },
+  "promptQueueUseCount": 1621,
+  "showExpandedTodos": true,
+  "cachedStatsigGates": {
+    "tengu_prompt_suggestion": true,
+    "tengu_vscode_review_upsell": false,
+    "tengu_year_end_2025_campaign_promo": false,
+    "tengu_log_1p_events": true,
+    "code_slack_app_install_banner": false,
+    "tengu_tool_pear": false,
+    "tengu_c4w_usage_limit_notifications_enabled": true,
+    "tengu_sumi": false,
+    "tengu_streaming_tool_execution2": false,
+    "tengu_vscode_onboarding": false,
+    "tengu_disable_bypass_permissions_mode": false,
+    "tengu_thinkback": false,
+    "tengu_ant_attribution_header_new": true,
+    "tengu_session_memory": false
+  },
+  "cachedDynamicConfigs": {
+    "tengu_1p_event_batch_config": {
+      "scheduledDelayMillis": 5000,
+      "maxExportBatchSize": 200,
+      "maxQueueSize": 8192
+    },
+    "tengu-top-of-feed-tip": {
+      "tip": "",
+      "color": ""
+    }
+  },
+  "cachedGrowthBookFeatures": {
+    "tengu_mcp_tool_search": true,
+    "tengu_disable_bypass_permissions_mode": false,
+    "strawberry_granite_flag": "N/A",
+    "persimmon_marble_flag": "N/A",
+    "tengu_tool_pear": false,
+    "tengu_thinkback": false,
+    "tengu_ant_attribution_header_new": true,
+    "tengu_c4w_usage_limit_notifications_enabled": true,
+    "tengu_pid_based_version_locking": true,
+    "tengu_sumi": false,
+    "tengu_react_vulnerability_warning": false,
+    "tengu_accept_with_feedback": true,
+    "tengu_tool_result_persistence": false,
+    "tengu_tool_search_unsupported_models": null,
+    "tengu_1p_event_batch_config": {
+      "scheduledDelayMillis": 5000,
+      "maxExportBatchSize": 200,
+      "maxQueueSize": 8192
+    },
+    "tengu_event_sampling_config": {},
+    "tengu-top-of-feed-tip": {
+      "tip": "",
+      "color": ""
+    },
+    "tengu_permission_explainer": false,
+    "tengu_scratch": false,
+    "tengu_log_segment_events": false,
+    "tengu_log_datadog_events": true,
+    "tengu_streaming_tool_execution2": false,
+    "tengu_vscode_review_upsell": false,
+    "tengu_vscode_onboarding": false,
+    "tengu_post_compact_survey": false,
+    "enhanced_telemetry_beta": false,
+    "tengu_code_diff_cli": true,
+    "tengu_chrome_auto_enable": false,
+    "tengu_compact_streaming_retry": false,
+    "tengu_session_memory": false,
+    "tengu_bash_haiku_prefetch": true,
+    "tengu_plan_mode_interview_phase": false,
+    "tengu_sm_compact": false
+  },
+  "userID": "a6658af2a3e9ddd25feaa14b594706e281493b8ac6f99a53c481ef13b30bf6e3",
+  "firstStartTime": "2026-01-05T16:20:01.786Z",
+  "sonnet45MigrationComplete": true,
+  "opus45MigrationComplete": true,
+  "thinkingMigrationComplete": true,
+  "officialMarketplaceAutoInstallAttempted": true,
+  "officialMarketplaceAutoInstalled": true,
+  "autoUpdatesProtectedForNative": true,
+  "githubRepoPaths": {
+    "bigabid/amp-pm": [
+      "/Users/rotemlevi/repos/amp-pm/scripts"
+    ],
+    "bigabid/core-mwaa": [
+      "/Users/rotemlevi/repos/core-mwaa"
+    ],
+    "doktransfers/chat-companion-pro": [
+      "/Users/rotemlevi/repos/private/chat-companion-pro/node_modules/.ignored/@clerk/react-router/dist/client",
+      "/Users/rotemlevi/repos/private/chat-companion-pro/node_modules/@clerk/react-router/dist/client",
+      "/Users/rotemlevi/repos/private/chat-companion-pro"
+    ],
+    "bigabid/bids_to_wins": [
+      "/Users/rotemlevi/repos/bids_to_wins"
+    ],
+    "rotemlevibigabid/playground": [
+      "/Users/rotemlevi/repos/playground-1"
+    ],
+    "doktransfers/librechat-cdk": [
+      "/Users/rotemlevi/repos/private/librechat-cdk"
+    ]
+  },
+  "s1mAccessCache": {
+    "bd3ff2b3-f291-4f76-b56f-7db7cf81046c": {
+      "hasAccess": false,
+      "hasAccessNotAsDefault": false,
+      "timestamp": 1768618167685
+    },
+    "9418ab14-df4c-462a-af23-0aef4e804546": {
+      "hasAccess": false,
+      "hasAccessNotAsDefault": false,
+      "timestamp": 1768622454453
+    },
+    "6d943efc-93fe-4f07-b54d-f87ee8ecf55f": {
+      "hasAccess": false,
+      "hasAccessNotAsDefault": false,
+      "timestamp": 1768457017739
+    }
+  },
+  "projects": {
+    "/Users/rotemlevi/repos/amp-pm": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "agg_sliding_window_core.py",
+        "agg_sliding_window.py",
+        "agg_tiles_core.py",
+        "schema.py",
+        "main.py"
+      ],
+      "exampleFilesGeneratedAt": 1767639365034
+    },
+    "/Users/rotemlevi/repos/core-mwaa": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "AMP-time-traveler-dag.py",
+        "mysql-to-athena-ecs-dag.py",
+        "pm_v2_dag.py",
+        "check_operators_and_sensors.py",
+        "automatic_targeting_dag.py"
+      ],
+      "exampleFilesGeneratedAt": 1768379794983,
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "lastCost": 0.27373074999999997,
+      "lastAPIDuration": 28566,
+      "lastAPIDurationWithoutRetries": 28564,
+      "lastToolDuration": 449,
+      "lastDuration": 814650,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 173,
+      "lastTotalOutputTokens": 1077,
+      "lastTotalCacheCreationInputTokens": 26063,
+      "lastTotalCacheReadInputTokens": 168206,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 129,
+          "outputTokens": 27,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.000264
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 44,
+          "outputTokens": 1050,
+          "cacheReadInputTokens": 168206,
+          "cacheCreationInputTokens": 26063,
+          "webSearchRequests": 0,
+          "costUSD": 0.27346675
+        }
+      },
+      "lastSessionId": "61acf653-06ce-475b-a368-81a1165bddb1"
+    },
+    "/Users/rotemlevi/repos/private/chat-companion-pro": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 6,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "exampleFiles": [
+        "api.chat.ts",
+        "ChatContext.tsx",
+        "api.files.ts",
+        "document-ingestion.ts",
+        "rag.server.ts"
+      ],
+      "exampleFilesGeneratedAt": 1768374684479,
+      "lastCost": 25.953904250000008,
+      "lastAPIDuration": 2960126,
+      "lastAPIDurationWithoutRetries": 2959954,
+      "lastToolDuration": 1104398,
+      "lastDuration": 75810375,
+      "lastLinesAdded": 1985,
+      "lastLinesRemoved": 549,
+      "lastTotalInputTokens": 141248,
+      "lastTotalOutputTokens": 176393,
+      "lastTotalCacheCreationInputTokens": 3396299,
+      "lastTotalCacheReadInputTokens": 30087031,
+      "lastTotalWebSearchRequests": 1,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 123029,
+          "outputTokens": 68446,
+          "cacheReadInputTokens": 7860560,
+          "cacheCreationInputTokens": 2087457,
+          "webSearchRequests": 0,
+          "costUSD": 3.860636250000001
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 18219,
+          "outputTokens": 107947,
+          "cacheReadInputTokens": 22226471,
+          "cacheCreationInputTokens": 1308842,
+          "webSearchRequests": 1,
+          "costUSD": 22.093267999999995
+        }
+      },
+      "lastSessionId": "2366ec97-4016-4fef-9999-b8bdd3b81b73",
+      "disabledMcpServers": [
+        "1password"
+      ],
+      "hasCompletedProjectOnboarding": true
+    },
+    "/Users/rotemlevi": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 2,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [],
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "lastCost": 0.10725575,
+      "lastAPIDuration": 11682,
+      "lastAPIDurationWithoutRetries": 11681,
+      "lastToolDuration": 0,
+      "lastDuration": 37696,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 4049,
+      "lastTotalOutputTokens": 430,
+      "lastTotalCacheCreationInputTokens": 21183,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 2,
+          "outputTokens": 173,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 10533,
+          "webSearchRequests": 0,
+          "costUSD": 0.01403325
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 4047,
+          "outputTokens": 257,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 10650,
+          "webSearchRequests": 0,
+          "costUSD": 0.0932225
+        }
+      },
+      "lastSessionId": "f55cbeda-ffc9-44b5-953b-9eef215a4131",
+      "disabledMcpServers": [],
+      "mcpServers": {
+        "YouTrack": {
+          "type": "http",
+          "url": "https://bigabid.youtrack.cloud/mcp",
+          "headers": {
+            "Authorization": "Bearer ${YOUTRACK_TOKEN}"
+          }
+        },
+        "github": {
+          "type": "http",
+          "url": "https://api.githubcopilot.com/mcp/",
+          "headers": {
+            "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
+          }
+        }
+      }
+    },
+    "/Users/rotemlevi/repos/bids_to_wins": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "main.py",
+        "xgboost_bids.py",
+        "unbilled_attributions.py",
+        "schema.json",
+        "setup.py"
+      ],
+      "exampleFilesGeneratedAt": 1768471420956,
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "hasCompletedProjectOnboarding": true
+    },
+    "/Users/rotemlevi/repos/private/playground": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "lastCost": 0.07573025,
+      "lastAPIDuration": 13084,
+      "lastAPIDurationWithoutRetries": 13082,
+      "lastToolDuration": 0,
+      "lastDuration": 17341,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 142,
+      "lastTotalOutputTokens": 501,
+      "lastTotalCacheCreationInputTokens": 25683,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 136,
+          "outputTokens": 154,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 10684,
+          "webSearchRequests": 0,
+          "costUSD": 0.014261
+        },
+        "claude-sonnet-4-5-20250929": {
+          "inputTokens": 6,
+          "outputTokens": 347,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 14999,
+          "webSearchRequests": 0,
+          "costUSD": 0.06146925
+        }
+      },
+      "lastSessionId": "32cbe322-1814-48cf-9e6d-f6a15d31881e"
+    },
+    "/Users/rotemlevi/repos/playground-1": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {
+        "YouTrack": {
+          "type": "http",
+          "url": "https://bigabid.youtrack.cloud/mcp",
+          "headers": {
+            "Authorization": "Bearer ${YOUTRACK_TOKEN}"
+          }
+        },
+        "github": {
+          "type": "http",
+          "url": "https://api.githubcopilot.com/mcp/",
+          "headers": {
+            "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
+          }
+        }
+      },
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 3,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "lastCost": 3.8962327499999994,
+      "lastAPIDuration": 504459,
+      "lastAPIDurationWithoutRetries": 504437,
+      "lastToolDuration": 63006,
+      "lastDuration": 10216452,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 19143,
+      "lastTotalOutputTokens": 19304,
+      "lastTotalCacheCreationInputTokens": 233009,
+      "lastTotalCacheReadInputTokens": 3901687,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 18733,
+          "outputTokens": 715,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.022308
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 410,
+          "outputTokens": 18589,
+          "cacheReadInputTokens": 3901687,
+          "cacheCreationInputTokens": 233009,
+          "webSearchRequests": 0,
+          "costUSD": 3.873924749999999
+        }
+      },
+      "lastSessionId": "826dcb83-052d-4179-89e1-960b8e4dfcff"
+    },
+    "/Users/rotemlevi/repos": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "hasCompletedProjectOnboarding": true,
+      "lastCost": 12.042637950000001,
+      "lastAPIDuration": 1682713,
+      "lastAPIDurationWithoutRetries": 1682607,
+      "lastToolDuration": 855176,
+      "lastDuration": 7160214,
+      "lastLinesAdded": 1182,
+      "lastLinesRemoved": 107,
+      "lastTotalInputTokens": 394226,
+      "lastTotalOutputTokens": 88541,
+      "lastTotalCacheCreationInputTokens": 1181679,
+      "lastTotalCacheReadInputTokens": 8458578,
+      "lastTotalWebSearchRequests": 29,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 315304,
+          "outputTokens": 12836,
+          "cacheReadInputTokens": 2670047,
+          "cacheCreationInputTokens": 292169,
+          "webSearchRequests": 0,
+          "costUSD": 1.0116999500000003
+        },
+        "claude-opus-4-5-20251101": {
+          "inputTokens": 78922,
+          "outputTokens": 75705,
+          "cacheReadInputTokens": 5788531,
+          "cacheCreationInputTokens": 889510,
+          "webSearchRequests": 29,
+          "costUSD": 11.030937999999999
+        }
+      },
+      "lastSessionId": "575d5a8b-0760-44e6-bfb9-963799528b87"
+    },
+    "/Users/rotemlevi/repos/data_lineage_runner_original": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "output.py",
+        "lookup.py",
+        "api.py",
+        "input.py",
+        "runner.py"
+      ],
+      "exampleFilesGeneratedAt": 1768391729718
+    },
+    "/Users/rotemlevi/repos/data_lineage_runner": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "lookup.py",
+        "api.py",
+        "output.py",
+        "baseTemplate.py",
+        "runner.py"
+      ],
+      "exampleFilesGeneratedAt": 1768468431187
+    },
+    "/Users/rotemlevi/repos/lineage": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [],
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      }
+    },
+    "/Users/rotemlevi/repos/private/librechat-cdk": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "librechat-cdk-stack.ts",
+        "postgres.ts",
+        "librechat-service.ts",
+        "init_postgres.py",
+        "rag-api.ts"
+      ],
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "exampleFilesGeneratedAt": 1768622455389,
+      "lastCost": 0,
+      "lastAPIDuration": 0,
+      "lastAPIDurationWithoutRetries": 0,
+      "lastToolDuration": 0,
+      "lastDuration": 408586,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 0,
+      "lastTotalOutputTokens": 0,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {},
+      "lastSessionId": "9e6c67ab-2177-4804-a45a-b5ca94db2cb3"
+    }
+  },
+  "changelogLastFetched": 1768618167822,
+  "claudeCodeFirstTokenDate": "2026-01-05T16:20:22.866262Z",
+  "shiftEnterKeyBindingInstalled": true,
+  "hasCompletedOnboarding": true,
+  "lastOnboardingVersion": "2.1.1",
+  "lastReleaseNotesSeen": "2.1.11",
+  "hasShownOpus45Notice": {
+    "bd3ff2b3-f291-4f76-b56f-7db7cf81046c": true,
+    "9418ab14-df4c-462a-af23-0aef4e804546": true,
+    "6d943efc-93fe-4f07-b54d-f87ee8ecf55f": true
+  },
+  "hasIdeOnboardingBeenShown": {
+    "vscode": true
+  },
+  "lastPlanModeUse": 1767788321319,
+  "subscriptionNoticeCount": 0,
+  "hasAvailableSubscription": false,
+  "passesEligibilityCache": {
+    "9418ab14-df4c-462a-af23-0aef4e804546": {
+      "eligible": true,
+      "referral_code_details": {
+        "code": "wvXgHB6oNQ",
+        "campaign": "claude_code_guest_pass",
+        "referral_link": "https://claude.ai/referral/wvXgHB6oNQ"
+      },
+      "timestamp": 1768623369536
+    },
+    "bd3ff2b3-f291-4f76-b56f-7db7cf81046c": {
+      "eligible": true,
+      "referral_code_details": {
+        "code": "aOI7II5mEQ",
+        "campaign": "claude_code_guest_pass",
+        "referral_link": "https://claude.ai/referral/aOI7II5mEQ"
+      },
+      "timestamp": 1768618167226
+    }
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1768588145153
+  },
+  "iterm2SetupInProgress": false,
+  "iterm2BackupPath": "/Users/rotemlevi/Library/Preferences/com.googlecode.iterm2.plist.bak",
+  "groveConfigCache": {
+    "4d6441ce-f595-4d2e-b5b6-a5bd1fc635b6": {
+      "grove_enabled": true,
+      "timestamp": 1768419886832
+    },
+    "38dce5ea-27fb-4dfd-a008-57a6226d931b": {
+      "grove_enabled": true,
+      "timestamp": 1768622454020
+    },
+    "68b4a6e7-4fe3-40a8-a0cb-e97d31b67e5f": {
+      "grove_enabled": true,
+      "timestamp": 1768570699452
+    }
+  },
+  "anonymousId": "claudecode.v1.234268df-5e9e-4857-9f7e-2e98009a3b4f",
+  "passesUpsellSeenCount": 4,
+  "opusProMigrationComplete": true,
+  "mcpServers": {
+    "cloudflare-docs": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://docs.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-bindings": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://bindings.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-observability": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://observability.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-radar": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://radar.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-builds": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://builds.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-containers": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://containers.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-browser": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://browser.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-logpush": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://logs.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-ai-gateway": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://ai-gateway.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-autorag": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://autorag.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-auditlogs": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://auditlogs.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-dns-analytics": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://dns-analytics.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-dex": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://dex.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-casb": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://casb.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "cloudflare-graphql": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://graphql.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "YouTrack": {
+      "type": "http",
+      "url": "https://bigabid.youtrack.cloud/mcp",
+      "headers": {
+        "Authorization": "Bearer ${YOUTRACK_TOKEN}"
+      }
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "gdrive": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-gdrive"
+      ],
+      "env": {
+        "GDRIVE_CREDENTIALS_PATH": "/Users/rotemlevi/.config/.gdrive-server-credentials.json"
+      }
+    },
+    "aws-docs": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "awslabs.aws-documentation-mcp-server@latest"
+      ],
+      "env": {}
+    },
+    "aws-cdk": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "awslabs.cdk-mcp-server@latest"
+      ],
+      "env": {}
+    },
+    "aws-pricing": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "awslabs.aws-pricing-mcp-server@latest"
+      ],
+      "env": {}
+    },
+    "aws-support": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "awslabs.aws-support-mcp-server@latest"
+      ],
+      "env": {}
+    },
+    "bedrock-kb": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "awslabs.bedrock-kb-retrieval-mcp-server@latest"
+      ],
+      "env": {}
+    },
+    "aws-dataprocessing": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "awslabs.aws-dataprocessing-mcp-server@latest"
+      ],
+      "env": {}
+    },
+    "lambda-tool": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "awslabs.lambda-tool-mcp-server@latest"
+      ],
+      "env": {}
+    },
+    "ecs": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "awslabs-ecs-mcp-server",
+        "ecs-mcp-server"
+      ],
+      "env": {}
+    }
+  },
+  "cachedChromeExtensionInstalled": true,
+  "skillUsage": {
+    "github:AssignCodingAgent (MCP)": {
+      "usageCount": 1,
+      "lastUsedAt": 1768503653797
+    },
+    "ticket": {
+      "usageCount": 1,
+      "lastUsedAt": 1768565098151
+    }
+  },
+  "oauthAccount": {
+    "accountUuid": "38dce5ea-27fb-4dfd-a008-57a6226d931b",
+    "emailAddress": "vesttransfers@gmail.com",
+    "organizationUuid": "9418ab14-df4c-462a-af23-0aef4e804546",
+    "hasExtraUsageEnabled": false,
+    "displayName": "Rotem Levi",
+    "organizationRole": "admin",
+    "workspaceRole": null,
+    "organizationName": "vesttransfers@gmail.com's Organization"
+  }
+}

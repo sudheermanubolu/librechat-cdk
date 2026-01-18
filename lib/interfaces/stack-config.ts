@@ -53,6 +53,6 @@ export interface StackConfig {
   };
   domain: {
     name: string;
-    certificateArn: string;
+    certificateArn?: string;
   };
 }

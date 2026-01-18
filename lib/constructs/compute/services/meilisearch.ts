@@ -123,7 +123,7 @@ export class MeilisearchService extends Construct {
       maxHealthyPercent: 200,
       minHealthyPercent: 0,
       securityGroups: [serviceSecurityGroup],
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetGroupName: 'Private' },
       enableExecuteCommand: true,
       serviceConnectConfiguration: {
         namespace: props.cluster.defaultCloudMapNamespace?.namespaceName ?? 'librechat',

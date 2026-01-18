@@ -294,7 +294,7 @@ export class LibreChatService extends Construct {
       assignPublicIp: false,
       enableExecuteCommand: true,
       securityGroups: [serviceSecurityGroup],
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetGroupName: 'Private' },
       cloudMapOptions: {
         name: `librechat-${cdk.Names.uniqueId(this)}`,
         dnsTtl: cdk.Duration.seconds(60),

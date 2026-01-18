@@ -49,7 +49,7 @@ export class AuroraPostgres extends Construct {
       }),
       vpc: props.vpc,
       vpcSubnets: {
-        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+        subnetGroupName: 'Private',
       },
       writer: rds.ClusterInstance.serverlessV2('Writer', {
         autoMinorVersionUpgrade: true,

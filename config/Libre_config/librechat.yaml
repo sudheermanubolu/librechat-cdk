@@ -1,19 +1,19 @@
 # For more information, see the Configuration Guide:
 # https://docs.librechat.ai/install/configuration/custom_config.html
- 
+
 # Configuration version (required)
 version: 1.2.1
- 
+
 # Cache settings: Set to true to enable caching
 cache: true
- 
+
 # Custom interface configuration
 interface:
   # Privacy policy settings
   privacyPolicy:
     externalUrl: 'https://librechat.ai/privacy-policy'
     openNewTab: true
- 
+
   # Terms of service
   termsOfService:
     externalUrl: 'https://librechat.ai/tos'
@@ -27,159 +27,57 @@ interface:
   prompts: true
   bookmarks: true
   multiConvo: true
-  agents: true 
+  agents: true
 
-# Example Registration Object Structure (optional)
-# registration:
-#   socialLogins: ['github', 'google', 'discord', 'openid', 'facebook']
-  # allowedDomains:
-  # - "gmail.com"
- 
 rateLimits:
   fileUploads:
     ipMax: 100
-    ipWindowInMinutes: 60  # Rate limit window for file uploads per IP
+    ipWindowInMinutes: 60
     userMax: 50
-    userWindowInMinutes: 60  # Rate limit window for file uploads per user
+    userWindowInMinutes: 60
   conversationsImport:
     ipMax: 100
-    ipWindowInMinutes: 60  # Rate limit window for conversation imports per IP
+    ipWindowInMinutes: 60
     userMax: 50
-    userWindowInMinutes: 60  # Rate limit window for conversation imports per user
- 
+    userWindowInMinutes: 60
+
 # Definition of custom endpoints
 endpoints:
+  # Agents endpoint - configured to use Bedrock
   agents:
     recursionLimit: 50
     disableBuilder: false
-    # (optional) Agent Capabilities available to all users. Omit the ones you wish to exclude. Defaults to list below.
-    # capabilities: 
-    #   - "execute_code"
-    #   - "file_search"
-    #   - "actions"
-    #   - "tools"
-  bedrock:
-    # LibreChat Bedrock configuration for eu-north-1
-    # Updated 2026-01-17: Use models actually available in eu-north-1
-    availableRegions:
-      - "eu-north-1"
-    streamRate: 35
-    # Use Haiku for title generation (cost-effective)
-    titleModel: "anthropic.claude-haiku-4-5-20251001-v1:0"
-  assistants:
-    disableBuilder: false # Disable Assistants Builder Interface by setting to `true`
-    pollIntervalMs: 750  # Polling interval for checking assistant updates
-    timeoutMs: 180000  # Timeout for assistant operations
-    # Should only be one or the other, either `supportedIds` or `excludedIds`
-    supportedIds: ["asst_supportedAssistantId1", "asst_supportedAssistantId2"]
-    # excludedIds: ["asst_excludedAssistantId"]
-  #   Only show assistants that the user created or that were created externally (e.g. in Assistants playground).
-  #   # privateAssistants: false # Does not work with `supportedIds` or `excludedIds`
-  #   # (optional) Models that support retrieval, will default to latest known OpenAI models that support the feature
-    retrievalModels: ["anthropic.claude-3-7-sonnet-20250219-v1:0"]
-  #   # (optional) Assistant Capabilities available to all users. Omit the ones you wish to exclude. Defaults to list below.
-    capabilities: ["code_interpreter", "retrieval", "actions", "tools", "image_vision"]
-  custom:
-    # Groq Example
-    - name: 'groq'
-      apiKey: '${GROQ_API_KEY}'
-      baseURL: 'https://api.groq.com/openai/v1/'
-      models:
-        default: [
-          "llama3-70b-8192",
-          "llama3-8b-8192",
-          "llama2-70b-4096",
-          "mixtral-8x7b-32768",
-          "gemma-7b-it",
-          ]
-        fetch: false
-      titleConvo: true
-      titleModel: 'mixtral-8x7b-32768'
-      modelDisplayLabel: 'groq'
+    # Use Bedrock as the model provider for agents
+    model: "anthropic.claude-3-5-sonnet-20241022-v2:0"
+    modelEndpoint: "bedrock"
+    capabilities:
+      - "tools"
+      - "actions"
+      - "file_search"
 
-    - name: "Perplexity"
-      apiKey: "${PERPLEXITY_API_KEY}"
-      baseURL: "https://api.perplexity.ai/"
-      models:
-        default: [
-          "llama-3-sonar-small-32k-chat",
-          "llama-3-sonar-small-32k-online",
-          "llama-3-sonar-large-32k-chat",
-          "llama-3-sonar-large-32k-online",
-          "mixtral-8x7b-instruct",
-          "llama-3-8b-instruct",
-          "llama-3-70b-instruct"
-          ]
-        fetch: false # fetching list of models is not supported
-      titleConvo: true
-      titleModel: "llama-3-sonar-small-32k-chat"
-      summarize: false
-      summaryModel: "llama-3-sonar-small-32k-chat"
-      forcePrompt: false
-      dropParams: ["stop", "frequency_penalty"]
-      modelDisplayLabel: "Perplexity"
- 
-  #   # Mistral AI Example
-  #   - name: 'Mistral' # Unique name for the endpoint
-  #     # For `apiKey` and `baseURL`, you can use environment variables that you define.
-  #     # recommended environment variables:
-  #     apiKey: '${MISTRAL_API_KEY}'
-  #     baseURL: 'https://api.mistral.ai/v1'
- 
-      # # Models configuration
-      # models:
-      #   # List of default models to use. At least one value is required.
-      #   default: ['mistral-tiny', 'mistral-small', 'mistral-medium']
-      #   # Fetch option: Set to true to fetch models from API.
-      #   fetch: true # Defaults to false.
- 
-      # Optional configurations
- 
-      # # Title Conversation setting
-      # titleConvo: true # Set to true to enable title conversation
- 
-      # # Title Method: Choose between "completion" or "functions".
-      # # titleMethod: "completion"  # Defaults to "completion" if omitted.
- 
-      # # Title Model: Specify the model to use for titles.
-      # titleModel: 'mistral-tiny' # Defaults to "gpt-3.5-turbo" if omitted.
- 
-      # # Summarize setting: Set to true to enable summarization.
-      # # summarize: false
- 
-      # # Summary Model: Specify the model to use if summarization is enabled.
-      # # summaryModel: "mistral-tiny"  # Defaults to "gpt-3.5-turbo" if omitted.
- 
-      # # Force Prompt setting: If true, sends a `prompt` parameter instead of `messages`.
-      # # forcePrompt: false
- 
-      # # The label displayed for the AI model in messages.
-      # modelDisplayLabel: 'Mistral' # Default is "AI" when not set.
- 
-      # # Add additional parameters to the request. Default params will be overwritten.
-      # # addParams:
-      # # safe_prompt: true # This field is specific to Mistral AI: https://docs.mistral.ai/api/
- 
-      # # Drop Default params parameters from the request. See default params in guide linked below.
-      # # NOTE: For Mistral, it is necessary to drop the following parameters or you will encounter a 422 Error:
-      # dropParams: ['stop', 'user', 'frequency_penalty', 'presence_penalty']
- 
-    # OpenRouter Example
-    # - name: 'OpenRouter'
-    #   # For `apiKey` and `baseURL`, you can use environment variables that you define.
-    #   # recommended environment variables:
-    #   # Known issue: you should not use `OPENROUTER_API_KEY` as it will then override the `openAI` endpoint to use OpenRouter as well.
-    #   apiKey: '${OPENROUTER_KEY}'
-    #   baseURL: 'https://openrouter.ai/api/v1'
-    #   models:
-    #     default: ['meta-llama/llama-3-70b-instruct']
-    #     fetch: true
-    #   titleConvo: true
-    #   titleModel: 'meta-llama/llama-3-70b-instruct'
-    #   # Recommended: Drop the stop parameter from the request as Openrouter models use a variety of stop tokens.
-    #   dropParams: ['stop']
-    #   modelDisplayLabel: 'OpenRouter'
- 
+  # AWS Bedrock - Primary endpoint using IAM credentials
+  bedrock:
+    availableRegions:
+      - "us-east-1"
+    streamRate: 35
+    titleModel: "anthropic.claude-3-haiku-20240307-v1:0"
+
+  # Disable assistants (requires OpenAI API key)
+  assistants:
+    disableBuilder: true
+
+  # Disable OpenAI endpoint
+  openAI:
+    disabled: true
+
+  # Disable Anthropic direct endpoint (use Bedrock instead)
+  anthropic:
+    disabled: true
+
+  # Disable Google endpoint
+  google:
+    disabled: true
+
 fileConfig:
   endpoints:
     assistants:

@@ -45,7 +45,7 @@ export class DocumentDB extends Construct {
     this.cluster = new docdb.DatabaseCluster(this, 'LibreChatDocumentDBCluster', {
       vpc: props.vpc,
       vpcSubnets: {
-        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+        subnetGroupName: 'Private',
       },
       engineVersion: props.engineVersion || '5.0.0',
       instanceType: props.instanceType || ec2.InstanceType.of(ec2.InstanceClass.R6G, ec2.InstanceSize.LARGE),

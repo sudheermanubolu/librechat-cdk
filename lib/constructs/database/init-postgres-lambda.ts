@@ -43,7 +43,7 @@ export class InitPostgresLambda extends Construct {
       timeout: cdk.Duration.minutes(5),
       vpc: props.vpc,
       vpcSubnets: {
-        subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS
+        subnetGroupName: 'Private'
       },
       securityGroups: [lambdaSecurityGroup],
       layers: [databaseLayer.layer],

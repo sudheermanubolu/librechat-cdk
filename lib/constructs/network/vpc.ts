@@ -15,10 +15,15 @@ export class VpcConstruct extends Construct {
         vpcId: props.existingVpcId
       });
     } else if (props.newVpc) {
-      // Create new VPC with only public and private subnets
-      this.vpc = new ec2.Vpc(this, 'LibreChatVpc', {
+      const useVpcEndpoints = props.newVpc.useVpcEndpoints ?? false;
+      // Keep NAT gateway even with VPC endpoints for external API access (LLM APIs, etc.)
+      const natGateways = props.newVpc.natGateways;
+
+      // Create new VPC with public and private subnets
+      // Private subnets use NAT for internet access (required for external LLM APIs)
+      const vpc = new ec2.Vpc(this, 'LibreChatVpc', {
         maxAzs: props.newVpc.maxAzs,
-        natGateways: props.newVpc.natGateways,
+        natGateways: natGateways,
         ipAddresses: ec2.IpAddresses.cidr(props.newVpc.cidr),
         subnetConfiguration: [
           {
@@ -33,6 +38,41 @@ export class VpcConstruct extends Construct {
           }
         ],
       });
+
+      this.vpc = vpc;
+
+      // Add VPC endpoints for AWS services (cost-effective alternative to NAT Gateway)
+      if (useVpcEndpoints) {
+        // ECR API endpoint
+        vpc.addInterfaceEndpoint('EcrApiEndpoint', {
+          service: ec2.InterfaceVpcEndpointAwsService.ECR,
+        });
+
+        // ECR Docker endpoint
+        vpc.addInterfaceEndpoint('EcrDkrEndpoint', {
+          service: ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
+        });
+
+        // CloudWatch Logs endpoint
+        vpc.addInterfaceEndpoint('CloudWatchLogsEndpoint', {
+          service: ec2.InterfaceVpcEndpointAwsService.CLOUDWATCH_LOGS,
+        });
+
+        // Secrets Manager endpoint (for database credentials)
+        vpc.addInterfaceEndpoint('SecretsManagerEndpoint', {
+          service: ec2.InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
+        });
+
+        // S3 Gateway endpoint (free, for ECR image layers)
+        vpc.addGatewayEndpoint('S3Endpoint', {
+          service: ec2.GatewayVpcEndpointAwsService.S3,
+        });
+
+        new cdk.CfnOutput(this, 'VpcEndpointsEnabled', {
+          value: 'true',
+          description: 'VPC Endpoints enabled (ECR, CloudWatch Logs, Secrets Manager, S3)',
+        });
+      }
 
       // Add outputs for the new VPC
       new cdk.CfnOutput(this, 'VpcId', { 
